@@ -1,0 +1,14 @@
+使用servlet+spring+springJDBC对User表进行CRUD操作
+要求如下：
+1.Service层事务需要使用spring管理（以注解的形式）
+2.dao层使用JDBCTemplate模板完成。
+3.web层用Servlet实现，暂时不用关心全局变量线程安全性。
+4.Service层，dao层bean的创建使用IOC（注解方式）创建。Servlet对像创建无需交给spring
+5.完成用户登录功能
+6.完成在登录成功后的首页显示用户列表功能
+7.单击每条用户，可以查看用户详细信息功能，
+8.每条记录后有删除和更改超链接，单击完成删除和更改功能。
+9.并提供新增用户的功能
+
+
+ 

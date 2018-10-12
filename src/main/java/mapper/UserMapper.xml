@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.UserMapper">
+	
+	<select id="selectById"  resultType="User">
+		select * from tb_USER where id = #{id}
+	</select>
+	
+	<select id="selectByUsername"  resultType="User" parameterType="User">
+		select * from tb_USER where username = #{username}
+	</select>
+	<!-- 获得所有用户 -->
+	<select id="selectAll" resultType="User">
+		select * from tb_User;
+	</select>
+	<!-- 根据用户名获得用户 -->
+	<select id="selectByName" resultType="User">
+		select * from tb_User where username = #{username};
+	</select>
+	<!-- 根据用户名获得除了当前用户外的所有用户 -->
+	<select id="selectAllExcept" resultType="User">
+		select * from tb_User where id not in (#{username});
+	</select>
+	<!-- 获得所有管理员 -->
+	<select id="selectAllAdmin" resultType="User">
+		select * from tb_User where isadmin = 0;
+	</select>
+	<!-- 修改用户信息 -->
+	<update id="update" parameterType="User">
+		update tb_user set nickname=#{nickname},age=#{age},sex=#{sex},phone=#{phone},address=#{address} where id=#{id}
+	</update>
+	<!-- 修改账户信息 -->
+	<update id="updateAccount" parameterType="User">
+		update tb_user set username=#{username},password=#{password} where id=#{id}
+	</update>
+	<!-- 添加账户 -->
+	<insert id="insert" parameterType="User">
+		insert into tb_user value(null,#{username},#{password},#{nickname},#{age},#{sex},#{phone},#{address},1)
+	</insert>
+	
+</mapper>

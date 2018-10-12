@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.RestMapper">
+	<!-- 添加新休假 -->
+	<insert id="insertRest"   parameterType="Rest">
+	insert into tb_leave value(null,#{applyID},#{approveID},#{startTime},#{endTime},#{days},#{reason},#{state})
+	</insert>
+	<!-- 获得所有休假 -->
+	<select id="getAllRest" resultType="Rest">
+	SELECT tb_leave.*,tb_user.nickname AS applyName FROM tb_leave LEFT JOIN tb_user ON tb_leave.applyID=tb_user.id 
+	</select>
+	<!-- 获得指定用户的休假 -->
+	<select id="getRest" resultType="Rest">
+	select * from tb_leave where applyID = #{applyID}
+	</select>
+	<!-- 获得指定用户的休假 -->
+	<select id="getRestById" resultType="Rest">
+	select * from tb_leave where id = #{id}
+	</select>
+	<!-- 审核通过 -->
+	<update id="successRest">
+	update tb_leave set state=1 where id=#{id}
+	</update>
+	<!-- 审核拒绝 -->
+	<update id="failRest">
+	update tb_leave set state=2 where id=#{id}
+	</update>
+</mapper>

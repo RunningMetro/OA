@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:p="http://www.springframework.org/schema/p"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:mvc="http://www.springframework.org/schema/mvc"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/mvc
+http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+	<!-- 控制器的扫描由springmvc来完成，其他组件扫描由spring完成 -->
+	<context:component-scan base-package="controller"></context:component-scan>
+
+	<mvc:annotation-driven></mvc:annotation-driven>
+	
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	
+	<!-- 拦截器 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/user/tologin.do"/>
+			<mvc:exclude-mapping path="/user/login.do"/>
+			<mvc:exclude-mapping path="/Images/*"/>
+			<mvc:exclude-mapping path="/css/*"/>
+			<mvc:exclude-mapping path="/js/*"/>
+			<bean class="intercept.LoginIntercept"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	<!-- 静态资源处理 :location匹配url中现的字符，mapping表示直接映射到相应文件夹下的资源-->
+	<mvc:resources location="/static/" mapping="/static/**"></mvc:resources>
+	<mvc:resources location="/imgs/" mapping="/imgs/**"></mvc:resources>
+	<mvc:resources location="/css/" mapping="/css/**"></mvc:resources>
+	<mvc:resources location="/js/" mapping="/js/**"></mvc:resources>
+	<mvc:resources location="/Images/" mapping="/Images/**"></mvc:resources>
+	
+	<bean name="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" > 
+		
+	</bean>
+
+</beans>

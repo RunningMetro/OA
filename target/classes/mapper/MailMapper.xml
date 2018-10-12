@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.MailMapper">
+	<!-- 添加新邮件 -->
+	<insert id="insertMail"   parameterType="Mail">
+	insert into tb_mail value(null,#{fromID},#{toID},#{titile},#{content},#{attachment},#{isread},#{createTime},#{isDelete},#{realname})
+	</insert>
+	<!-- 获得所有邮件 -->
+	<select id="selectAll" parameterType="User" resultType="Mail">
+	SELECT tb_mail.* FROM tb_mail LEFT JOIN tb_user ON tb_mail.toID = tb_user.id WHERE tb_user.id = #{id}
+	</select>
+	<!-- 根据邮件id获得单个邮件 -->
+	<select id="selectById" resultType="Mail">
+	select * from tb_mail where id = #{mailId}
+	</select>
+	<!-- 更新邮件 -->
+	<update id="updateMail" parameterType="Mail">
+	update tb_mail set fromID=#{fromID},toID=#{toID},titile=#{titile},content=#{content},attachment=#{attachment},isread=#{isread},createTime=#{createTime},isDelete=#{isDelete},realname=#{realname} where id=#{id}
+	</update>
+	<!-- 删除邮件 -->
+	<update id="deleteById">
+	update tb_mail set isDelete = 1 where id = #{id}
+	</update>
+	<!-- 删除邮件(完全删除) -->
+	<update id="removeById">
+	update tb_mail set isDelete = 2 where id = #{id}
+	</update>
+	<!-- 还原邮件 -->
+	<update id="returnEmail">
+	update tb_mail set isDelete = 0 where id = #{id}
+	</update>
+	<!-- 发件箱 -->
+	<select id="selectSendedById" resultType="Mail">
+	select * from tb_mail where fromID = #{id}
+	</select>
+	<!--所有的个数allCount,收件箱 -->
+	<select id="selectAllCount" resultType="java.lang.Integer">
+		select count(*) from tb_mail left join tb_user on tb_mail.toID=tb_user.id where tb_user.id = #{id} and tb_mail.isDelete = 0;
+	</select>
+	<!-- 当前页显示的所有商品, 收件箱-->
+	<select id="selectAllList" resultType="Mail" parameterType="User">
+		SELECT tb_mail.* FROM tb_mail LEFT JOIN tb_user ON tb_mail.toID = tb_user.id WHERE tb_user.id = #{user.id} LIMIT #{firstpage},#{maxpage}
+	</select>
+	<!-- 已发邮件分页插件 -->
+	<select id="selectSendedByChajian" resultType="Mail">
+		select * from tb_mail where fromID=#{id}
+	</select>
+</mapper>
